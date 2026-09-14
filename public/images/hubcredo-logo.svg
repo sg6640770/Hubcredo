@@ -1,0 +1,20 @@
+<svg width="280" height="60" viewBox="0 0 280 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1fcfff"/>
+      <stop offset="55%" stop-color="#7e57ff"/>
+      <stop offset="100%" stop-color="#ce3cff"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <circle cx="14" cy="30" r="6" fill="url(#grad)"/>
+    <circle cx="30" cy="18" r="4" fill="#1fcfff" opacity="0.9"/>
+    <circle cx="30" cy="42" r="4" fill="#ce3cff" opacity="0.9"/>
+    <line x1="14" y1="30" x2="30" y2="18" stroke="#7e57ff" stroke-width="1.5" opacity="0.6"/>
+    <line x1="14" y1="30" x2="30" y2="42" stroke="#7e57ff" stroke-width="1.5" opacity="0.6"/>
+    <line x1="30" y1="18" x2="30" y2="42" stroke="#7e57ff" stroke-width="1" opacity="0.4"/>
+  </g>
+  <text x="46" y="38" font-family="Manrope, sans-serif" font-size="24" font-weight="800" letter-spacing="-1">
+    <tspan fill="#f2f4fa">Hub</tspan><tspan fill="url(#grad)">credo</tspan>
+  </text>
+</svg>
