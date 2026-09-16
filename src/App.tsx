@@ -419,7 +419,10 @@ function App() {
         if (entry.isIntersecting) entry.target.classList.add('in-view');
       });
     }, { threshold: 0.15 });
-    if (processRef.current) observer.observe(processRef.current);
+    if (processRef.current) {
+      processRef.current.classList.add('in-view');
+      observer.observe(processRef.current);
+    }
     return () => observer.disconnect();
   }, []);
 
