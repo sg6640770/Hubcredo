@@ -263,7 +263,7 @@ const termsSections: LegalSection[] = [
 ];
 
 function LegalPage({ title, intro, sections, onHome }: { title: string; intro: string; sections: LegalSection[]; onHome: () => void }) {
-  return <div className="legal-page"><header className="site-header"><nav className="nav-wrap" aria-label="Legal page navigation"><a className="brand" href="#top" onClick={onHome} aria-label="Hubcredo home"><img src="/images/Hubcredo_logo_(1)_(3) copy.png" alt="Hubcredo" /></a><button className="legal-home" onClick={onHome}>Back to home <ArrowRight size={16} /></button></nav></header><main className="legal-main"><div className="legal-hero"><img className="legal-logo" src="/images/image copy 2.png" alt="HubCredo" /><h1>{title}</h1><p>{intro}</p></div><article className="legal-content">{sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}</article></main><footer className="footer legal-footer"><div className="footer-bottom"><span>Copyright 2026 © All rights Reserved.</span><button onClick={onHome}>Return to HubCredo</button></div></footer></div>;
+  return <div className="legal-page"><header className="site-header"><nav className="nav-wrap" aria-label="Legal page navigation"><a className="brand" href="#top" onClick={onHome} aria-label="Hubcredo home"><img src="/images/Hubcredo_logo_(1)_(3) copy.png" alt="Hubcredo" /></a><button className="legal-home" onClick={onHome}>Back to home <ArrowRight size={16} /></button></nav></header><main className="legal-main"><div className="legal-hero"><h1>{title}</h1><p>{intro}</p></div><article className="legal-content">{sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}</article></main><footer className="footer legal-footer"><div className="footer-bottom"><span>Copyright 2026 © All rights Reserved.</span><button onClick={onHome}>Return to HubCredo</button></div></footer></div>;
 }
 
 /* ---------- Services: live calling animation (dummy prospect) ---------- */
@@ -496,7 +496,20 @@ function App() {
 
         <section className="process-section" ref={processRef}><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> Our process</p><h2>Our Process is Divided<br />into <strong>Four Key Phases</strong></h2></div><div className="process-grid"><div className="process-connector-line" />{processSteps.map(([title, text, Icon], index) => <article className="process-card" style={{ '--card-delay': `${index * 0.15}s` } as React.CSSProperties} key={title}><div className="process-card-glow" /><Icon size={56} strokeWidth={1.15} /><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
 
-        <section className="partners-section"><div className="section-shell"><h3>We are a Proud partner of</h3><div className="partners-viewport"><div className="partners partners-track">{['n8n', 'Clay', 'HubSpot', 'Smartlead', 'Apollo', 'Supabase', 'n8n', 'Clay', 'HubSpot', 'Smartlead', 'Apollo', 'Supabase'].map((tool, index) => <span className="tool-name" key={`${tool}-${index}`}>{tool}</span>)}</div></div><div className="video-title"><p className="eyebrow"><span /> Testimonial from a client</p><h2>Hear what teams<br /><strong>say about us.</strong></h2></div><div className="video-placeholder"><div className="video-play"><span>▶</span></div><strong>Hubcredo client story</strong><small>Watch how AI-powered workflows change the day-to-day.</small></div></div></section>
+        <section className="partners-section"><div className="section-shell"><h3>We are a Proud partner of</h3><div className="partners-viewport"><div className="partners partners-track">{[
+          ['n8n', '/images/n8n.png'],
+          ['Clay', '/images/Clay.jpg'],
+          ['HubSpot', '/images/hubspot.png'],
+          ['Smartlead', '/images/smartlead.jpeg'],
+          ['Apollo', '/images/apollo.jpg'],
+          ['Supabase', '/images/supabase.png'],
+          ['n8n', '/images/n8n.png'],
+          ['Clay', '/images/Clay.jpg'],
+          ['HubSpot', '/images/hubspot.png'],
+          ['Smartlead', '/images/smartlead.jpeg'],
+          ['Apollo', '/images/apollo.jpg'],
+          ['Supabase', '/images/supabase.png'],
+        ].map(([tool, logo], index) => <span className="tool-logo" key={`${tool}-${index}`}><img src={logo} alt={tool} /></span>)}</div></div><div className="video-title"><p className="eyebrow"><span /> Testimonial from a client</p><h2>Hear what teams<br /><strong>say about us.</strong></h2></div><div className="video-placeholder"><div className="video-play"><span>▶</span></div><strong>Hubcredo client story</strong><small>Watch how AI-powered workflows change the day-to-day.</small></div></div></section>
 
         <section className="faq-section" id="faq"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> FAQ</p><h2>Everything you need<br /><strong>to know.</strong></h2></div><div className="faq-list">{faqs.map(([question, answer], index) => <div className={`faq-item ${activeFaq === index ? 'active' : ''}`} key={question}><button onClick={() => setActiveFaq(activeFaq === index ? -1 : index)}><span>{question}</span>{activeFaq === index ? <X size={19} /> : <Plus size={19} />}</button><div className="faq-answer"><p>{answer}</p></div></div>)}</div></div></section>
 
