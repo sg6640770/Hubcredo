@@ -1522,3 +1522,51 @@ h1 { max-width: 1050px; margin: 0 auto 38px; color: #fff; font-size: clamp(48px,
     animation: none !important;
   }
 }
+
+/* ---------- Precision clipping fixes (layout/animation unchanged) ---------- */
+
+/* Keep the outer edges of the gradient glyphs inside their text boxes. */
+.hero-copy h1 strong,
+.services-section .section-title h2 strong,
+.process-section .section-title h2 strong,
+.strip-gradient {
+  display: inline-block;
+  padding-inline: .045em;
+  margin-inline: -.045em;
+}
+
+/* Give the descenders in the animated gradient heading enough vertical
+   breathing room without changing its font, animation or layout. */
+.strip-gradient {
+  padding-bottom: .16em;
+  margin-bottom: -.16em;
+}
+
+/* Keep both animated hero orbits the same size while leaving a small,
+   consistent safety gap from the visual boundary. */
+.hero-visual .orbit-a {
+  width: 450px;
+  height: 230px;
+  margin: -115px 0 0 -225px;
+}
+
+.hero-visual .orbit-b {
+  width: 450px;
+  height: 230px;
+  margin: -115px 0 0 -225px;
+}
+
+/* Same equal-size safety adjustment on smaller screens. */
+@media (max-width: 700px) {
+  .hero-visual .orbit-a {
+    width: 300px;
+    height: 190px;
+    margin: -95px 0 0 -150px;
+  }
+
+  .hero-visual .orbit-b {
+    width: 300px;
+    height: 190px;
+    margin: -95px 0 0 -150px;
+  }
+}
