@@ -396,7 +396,7 @@ function CreativeStrip() {
         <div className="strip-stats">
           {stats.map(([value, label], index) => (
             <div className="strip-stat" style={{ '--stat-delay': `${0.65 + index * 0.12}s` } as React.CSSProperties} key={label}>
-              <strong>{value}</strong>
+              <strong className="pop-number">{value}</strong>
               <span>{label}</span>
             </div>
           ))}
@@ -417,13 +417,16 @@ function App() {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add('in-view');
+        entry.target.classList.toggle('in-view', entry.isIntersecting);
       });
-    }, { threshold: 0.15 });
-    if (processRef.current) {
-      processRef.current.classList.add('in-view');
-      observer.observe(processRef.current);
-    }
+    }, { threshold: 0.22 });
+
+    document.querySelectorAll('.process-section, .strip-stats, .counter-section').forEach((section) => {
+      observer.observe(section);
+    });
+
+    if (processRef.current) processRef.current.classList.add('in-view');
+
     return () => observer.disconnect();
   }, []);
 
@@ -462,7 +465,12 @@ function App() {
           <div className={`nav-links ${menuOpen ? 'is-open' : ''}`}>
             <a href="#top" onClick={closeMenu}>Home</a>
             <a href="#our-team" onClick={closeMenu}>Our Team</a>
-            <a href="#services" onClick={closeMenu}>Services</a>
+            <details className="services-menu"><summary>Services <ChevronDown size={14} /></summary><div className="services-dropdown">
+              <a href="#services" onClick={closeMenu}>Automated Outbound For B2B</a>
+              <a href="#services" onClick={closeMenu}>Cold Calling, Live</a>
+              <a href="#services" onClick={closeMenu}>Development &amp; Coding</a>
+              <a href="#services" onClick={closeMenu}>Chatbot, Live</a>
+            </div></details>
             <details className="products-menu"><summary>Products <ChevronDown size={14} /></summary><div className="products-dropdown"><a href="https://pipeline.hubcredo.com/" target="_blank" rel="noreferrer">Outreach Pipeline</a><a href="https://hr.hubcredo.com/" target="_blank" rel="noreferrer">Recruitment Pipeline</a></div></details>
           </div>
           <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X size={23} /> : <Menu size={23} />}</button>
@@ -490,7 +498,7 @@ function App() {
 
         <section className="team-section" id="our-team"><div className="section-shell"><div className="section-title team-heading"><div><p className="eyebrow"><span /> Our team</p><h2>Our team is<br /><strong>here to help.</strong></h2></div><p>A diverse group of specialists, united by curiosity, sharp thinking, and a shared commitment to making our clients' success easier to achieve.</p></div><div className="team-grid">{teamMembers.map((member) => <article className="team-card" key={member.name}><img src={member.image} alt={member.name} /><div className="team-shade" /><div className="team-info"><div><h3>{member.name}</h3><p>{member.role}</p></div><span className="circle-arrow"><ArrowRight size={16} /></span></div><div className="team-bio"><p>{member.bio}</p></div></article>)}</div></div></section>
 
-        <section className="counter-section"><div className="counter-grid"><div><Check size={23} /><strong>50<small>+</small></strong><span>Completed Projects</span></div><div><Check size={23} /><strong>30<small>+</small></strong><span>Business Automated</span></div><div><Check size={23} /><strong>20<small>+</small></strong><span>5 Star Reviews</span></div></div></section>
+        <section className="counter-section"><div className="counter-grid"><div><Check size={23} /><strong className="pop-number">50<small>+</small></strong><span>Completed Projects</span></div><div><Check size={23} /><strong className="pop-number">30<small>+</small></strong><span>Business Automated</span></div><div><Check size={23} /><strong className="pop-number">20<small>+</small></strong><span>5 Star Reviews</span></div></div></section>
 
         <section className="feedback-section"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> Client’s Feedback</p><h2>Trusted by teams<br /><strong>that move forward.</strong></h2></div><div className="testimonial-slider"><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial - 1 + testimonials.length) % testimonials.length)} aria-label="Previous testimonial">‹</button><div className="testimonial-card"><p className="testimonial-company">{testimonials[activeTestimonial][0]} <i>/</i> {testimonials[activeTestimonial][1]}</p><h3>{testimonials[activeTestimonial][2]}</h3><div className="stars">★★★★★</div><p>{testimonials[activeTestimonial][3]}</p></div><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial + 1) % testimonials.length)} aria-label="Next testimonial">›</button></div><div className="slider-dots">{testimonials.map((testimonial, index) => <button className={activeTestimonial === index ? 'active' : ''} key={testimonial[0]} onClick={() => setActiveTestimonial(index)} aria-label={`Show ${testimonial[0]} testimonial`} />)}</div></div></section>
 
