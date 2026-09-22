@@ -98,7 +98,7 @@ const processSteps = [
 ] as const;
 
 const testimonials = [
-  ['ShineX', 'Consumer Goods', 'Best Agency for AI-Powered Outbound & Lead Generation', 'We use Clay AI and n8n to automate lead generation, cold email campaigns, and CRM workflows—helping businesses scale faster.'],
+  ['Global VPO', 'Consumer Goods', 'Best Agency for AI-Powered Outbound & Lead Generation', 'We use Clay AI and n8n to automate lead generation, cold email campaigns, and CRM workflows—helping businesses scale faster.'],
   ['Medlyze', 'Healthcare Technology', 'Experts in Automated Sales & Marketing Workflows', 'From AI-driven email marketing to CRM automation, our solutions save hours of manual work while boosting conversions'],
   ['Zetwerk', 'Manufacturing', 'Smarter CRM Workflows', 'The workflows Hubcredo built with Clay and n8n transformed our CRM processes. Data is now accurate, enriched, and ready for action without manual effort'],
   ['Greentek Planet', 'Environmental Tech', 'Consistent Outreach, Better Responses', 'We struggled to maintain consistent cold email campaigns. Hubcredo’s automation setup runs seamlessly, improving response rates and saving hours daily.'],
@@ -369,45 +369,6 @@ function ServicesCarousel() {
   return <div className="services-carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => { if (dragStart === null) setPaused(false); }}><div className="carousel-viewport" onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerCancel={handlePointerUp}><div className="carousel-track" style={{ transform: `translateX(calc(-${activeService * 100}% + ${dragOffset}px))` }}>{serviceCards.map(({ title, text, icon: Icon, animation, tag, caption, features }, index) => <article className="service-card carousel-card" key={title} aria-hidden={activeService !== index}><div className="service-card-inner"><div className="service-card-content"><div className="service-icon-badge"><Icon size={26} strokeWidth={1.6} /></div><span className="service-tag">{tag}</span><h3>{title}</h3><p>{text}</p><ul className="service-feature-list">{features.map((feature) => <li key={feature}><Check size={14} /><span>{feature}</span></li>)}</ul></div><div className="service-card-visual"><div className="service-card-visual-grid" /><span className="service-card-visual-badge"><span /> Live preview</span><ServiceWorkflow animation={animation} /><span className="service-card-visual-caption">{caption}</span></div></div></article>)}</div></div><div className="carousel-controls"><button onClick={() => goToService(activeService - 1)} aria-label="Previous service">‹</button><div className="carousel-dots">{serviceCards.map((service, index) => <button className={activeService === index ? 'active' : ''} onClick={() => goToService(index)} aria-label={`Show ${service.title}`} key={service.title} />)}</div><button onClick={() => goToService(activeService + 1)} aria-label="Next service">›</button></div></div>;
 }
 
-/* ---------- Premium animated creative strip ---------- */
-function CreativeStrip() {
-  const stats = [['50+', 'Projects delivered'], ['24/7', 'Workflows running'], ['4.9/5', 'Client rating']] as const;
-  return (
-    <section className="creative-strip">
-      <div className="strip-bg" aria-hidden="true">
-        <span className="strip-orb orb-1" />
-        <span className="strip-orb orb-2" />
-        <span className="strip-orb orb-3" />
-        <span className="strip-grid" />
-      </div>
-      <div className="strip-inner">
-        <p className="strip-eyebrow"><Sparkles size={14} /> Creative AI Agency</p>
-        <h2 className="strip-title">
-          <span className="strip-word">We’re</span>
-          <span className="strip-word">Creative</span>
-          <strong className="strip-word strip-gradient">AI Agency</strong>
-        </h2>
-        <p className="strip-copy">At Hubcredo, we create AI-powered automation systems that eliminate manual tasks, improve efficiency, and help your business grow faster.</p>
-        <div className="strip-actions">
-          <a className="strip-cta" href="https://calendly.com/hubcredo/introductory-call" target="_blank" rel="noreferrer">
-            <span>Book A Meeting</span>
-            <ArrowRight size={18} />
-          </a>
-          <span className="strip-meta"><i className="strip-dot" /> 30+ automation systems live in production</span>
-        </div>
-        <div className="strip-stats">
-          {stats.map(([value, label], index) => (
-            <div className="strip-stat" style={{ '--stat-delay': `${0.65 + index * 0.12}s` } as React.CSSProperties} key={label}>
-              <strong className="pop-number">{value}</strong>
-              <span>{label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState(0);
@@ -423,7 +384,7 @@ function App() {
       });
     }, { threshold: 0.22 });
 
-    document.querySelectorAll('.process-section, .strip-stats, .counter-section').forEach((section) => {
+    document.querySelectorAll('.process-section, .hero-stats, .counter-section').forEach((section) => {
       observer.observe(section);
     });
 
@@ -468,10 +429,10 @@ function App() {
             <a href="#top" onClick={closeMenu}>Home</a>
             <a href="#our-team" onClick={closeMenu}>Our Team</a>
             <details className="services-menu"><summary>Services <ChevronDown size={14} /></summary><div className="services-dropdown">
-              <a href="#services" onClick={closeMenu}>Automated Outbound For B2B</a>
-              <a href="#services" onClick={closeMenu}>Cold Calling, Live</a>
-              <a href="#services" onClick={closeMenu}>Development &amp; Coding</a>
-              <a href="#services" onClick={closeMenu}>Chatbot, Live</a>
+              <a href="#services" onClick={closeMenu}>GTM Automation</a>
+              <a href="#services" onClick={closeMenu}>Website & App Development</a>
+              <a href="#services" onClick={closeMenu}>Content Engineering</a>
+              <a href="#services" onClick={closeMenu}>AI-Powered Marketing</a>
             </div></details>
             <details className="products-menu"><summary>Products <ChevronDown size={14} /></summary><div className="products-dropdown"><a href="https://pipeline.hubcredo.com/" target="_blank" rel="noreferrer">Outreach Pipeline</a><a href="https://hr.hubcredo.com/" target="_blank" rel="noreferrer">Recruitment Pipeline</a></div></details>
           </div>
@@ -480,17 +441,44 @@ function App() {
       </header>
 
       <main id="top">
-        <section className="hero section-shell">
-          <div className="hero-copy fade-in"><p className="eyebrow"><span /> <strong>Creative AI agency</strong></p><p className="hero-kicker">At Hubcredo, we integrate cutting-edge AI to automate your business processes and unlock growth</p><h1>Revolutionize Your Business <strong>with AI-Powered Solutions</strong></h1><a className="button button-purple" href="https://calendly.com/hubcredo/introductory-call" target="_blank" rel="noreferrer">Book A Free Consultation <ArrowRight size={18} /></a></div>
-          <div className="hero-visual fade-in delay-1" aria-label="Animated AI and automation network">
-            <div className="hero-orbit orbit-a" /><div className="hero-orbit orbit-b" />
-            <div className="hero-center"><Sparkles size={30} /><b>AI<br />engine</b><small>LIVE SYSTEM</small></div>
-            {animationNodes.map(({ label, icon: Icon, className }) => <div className={`animation-node ${className}`} key={label}><Icon size={20} /><span>{label}</span></div>)}
-            <div className="hero-live"><i /> Workflows running <strong>24/7</strong></div>
+        <section className="hero">
+          <div className="hero-inner">
+            <div className="hero-copy fade-in">
+              <p className="eyebrow hero-eyebrow"><Sparkles size={14} /> <strong>BUILD. AUTOMATE. GROW.</strong></p>
+              <p className="hero-kicker">AI-powered technology and go-to-market solutions for ambitious companies.</p>
+              <h1>
+  Revolutionize Your Business with{' '}
+  <strong className="hero-gradient-title">
+    <span className="strip-word strip-gradient" style={{ '--word-delay': '.05s' } as React.CSSProperties}>AI-Powered Solutions</span>{' '}
+    <span className="strip-word strip-gradient" style={{ '--word-delay': '.2s' } as React.CSSProperties}></span>
+  </strong>
+</h1>
+              <a className="button button-purple hero-cta" href="https://calendly.com/hubcredo/introductory-call" target="_blank" rel="noreferrer">Book A Free Consultation <ArrowRight size={18} /></a>
+              <span className="hero-meta"><i /> 30+ automation systems live in production</span>
+              <div className="hero-stats">
+                <div className="hero-stat" style={{ '--stat-delay': '.08s' } as React.CSSProperties}>
+                  <strong className="pop-number">50+</strong>
+                  <span>Projects delivered</span>
+                </div>
+                <div className="hero-stat" style={{ '--stat-delay': '.22s' } as React.CSSProperties}>
+                  <strong className="pop-number">24/7</strong>
+                  <span>Workflows running</span>
+                </div>
+                <div className="hero-stat" style={{ '--stat-delay': '.36s' } as React.CSSProperties}>
+                  <strong className="pop-number">4.9/5</strong>
+                  <span>Client rating</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="hero-visual fade-in delay-1" aria-label="Animated AI and automation network">
+              <div className="hero-orbit orbit-a" /><div className="hero-orbit orbit-b" />
+              <div className="hero-center"><Sparkles size={30} /><b>AI<br />engine</b><small>LIVE SYSTEM</small></div>
+              {animationNodes.map(({ label, icon: Icon, className }) => <div className={`animation-node ${className}`} key={label}><Icon size={20} /><span>{label}</span></div>)}
+              <div className="hero-live"><i /> Workflows running <strong>24/7</strong></div>
+            </div>
           </div>
         </section>
-
-        <CreativeStrip />
 
         <section className="choose-section section-shell"><div className="section-title centered"><p className="eyebrow"><span /> Why should you choose?</p><h2>Systems that turn<br /><strong>effort into growth.</strong></h2></div><div className="choose-layout"><div className="choose-left-col"><div className={`seed-mark seed-mark-${activeChoose}`} key={activeChoose}><ChooseIcon size={120} strokeWidth={1} /></div><ChooseWorkflowDiagram /></div><div className="choose-tabs"><div className="tab-pills" role="tablist" aria-label="Hubcredo capabilities">{chooseTabs.map((tab, index) => <button className={activeChoose === index ? 'active' : ''} key={tab.label} onClick={() => setActiveChoose(index)} role="tab" aria-selected={activeChoose === index}>{tab.label}</button>)}</div><div className={`choose-panel choose-panel-${selectedChoose.tone}`} key={selectedChoose.label}><div className="panel-icon"><ChooseIcon size={27} /></div><div><h3>{selectedChoose.title}</h3><p>{selectedChoose.text}</p></div></div></div></div></section>
 
@@ -523,7 +511,9 @@ function App() {
           ['Smartlead', '/images/smartlead.jpeg'],
           ['Apollo', '/images/apollo.jpg'],
           ['Supabase', '/images/supabase.png'],
-        ].map(([tool, logo], index) => <span className="tool-logo" key={`${tool}-${index}`}><img src={logo} alt={tool} /></span>)}</div></div><div className="video-title"><p className="eyebrow"><span /> Testimonial from a client</p><h2>Hear what teams<br /><strong>say about us.</strong></h2></div><div className="video-placeholder"><div className="video-play"><span>▶</span></div><strong>Hubcredo client story</strong><small>Watch how AI-powered workflows change the day-to-day.</small></div></div></section>
+        ].map(([tool, logo], index) => <span className="tool-logo" key={`${tool}-${index}`}><img src={logo} alt={tool} /></span>)}</div></div><div className="video-title"><p className="eyebrow"><span /> Testimonial from a client</p><h2>Hear what teams<br /><strong>say about us.</strong></h2></div><div className="video-embed">
+  <wistia-player media-id="ro4r3gvhvc" aspect="1.7777777777777777"></wistia-player>
+</div></div></section>
 
         <section className="faq-section" id="faq"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> FAQ</p><h2>Everything you need<br /><strong>to know.</strong></h2></div><div className="faq-list">{faqs.map(([question, answer], index) => <div className={`faq-item ${activeFaq === index ? 'active' : ''}`} key={question}><button onClick={() => setActiveFaq(activeFaq === index ? -1 : index)}><span>{question}</span>{activeFaq === index ? <X size={19} /> : <Plus size={19} />}</button><div className="faq-answer"><p>{answer}</p></div></div>)}</div></div></section>
 
