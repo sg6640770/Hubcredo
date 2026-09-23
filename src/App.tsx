@@ -524,8 +524,13 @@ function App() {
           ['Smartlead', '/images/smartlead.jpeg'],
           ['Apollo', '/images/apollo.jpg'],
           ['Supabase', '/images/supabase.png'],
-        ].map(([tool, logo], index) => <span className="tool-logo" key={`${tool}-${index}`}><img src={logo} alt={tool} /></span>)}</div></div><div className="video-title"><p className="eyebrow"><span /> Testimonial from a client</p><h2>Hear what teams<br /><strong>say about us.</strong></h2></div><div className="video-embed">
-  <wistia-player media-id="ro4r3gvhvc" aspect="1.7777777777777777"></wistia-player>
+        ].map(([tool, logo], index) => <span className="tool-logo" key={`${tool}-${index}`}><img src={logo} alt={tool} /></span>)}</div></div><div className="video-title"><p className="eyebrow"><span /> Testimonial from a client</p><h2>Hear what teams<br /><strong>say about us.</strong></h2></div>
+        
+        <div className="video-embed">
+  <video controls playsInline preload="metadata">
+    <source src="/images/testimonial.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
 </div></div></section>
 
         <section className="faq-section" id="faq"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> FAQ</p><h2>Everything you need<br /><strong>to know.</strong></h2></div><div className="faq-list">{faqs.map(([question, answer], index) => <div className={`faq-item ${activeFaq === index ? 'active' : ''}`} key={question}><button onClick={() => setActiveFaq(activeFaq === index ? -1 : index)}><span>{question}</span>{activeFaq === index ? <X size={19} /> : <Plus size={19} />}</button><div className="faq-answer"><p>{answer}</p></div></div>)}</div></div></section>
