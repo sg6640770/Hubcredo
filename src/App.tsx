@@ -98,7 +98,7 @@ const processSteps = [
 ] as const;
 
 const testimonials = [
-  ['Global VPO', 'Consumer Goods', 'Best Agency for AI-Powered Outbound & Lead Generation', 'We use Clay AI and n8n to automate lead generation, cold email campaigns, and CRM workflows—helping businesses scale faster.'],
+  ['Global BPO', 'Consumer Goods', 'Best Agency for AI-Powered Outbound & Lead Generation', 'We use Clay AI and n8n to automate lead generation, cold email campaigns, and CRM workflows—helping businesses scale faster.'],
   ['Medlyze', 'Healthcare Technology', 'Experts in Automated Sales & Marketing Workflows', 'From AI-driven email marketing to CRM automation, our solutions save hours of manual work while boosting conversions'],
   ['Zetwerk', 'Manufacturing', 'Smarter CRM Workflows', 'The workflows Hubcredo built with Clay and n8n transformed our CRM processes. Data is now accurate, enriched, and ready for action without manual effort'],
   ['Greentek Planet', 'Environmental Tech', 'Consistent Outreach, Better Responses', 'We struggled to maintain consistent cold email campaigns. Hubcredo’s automation setup runs seamlessly, improving response rates and saving hours daily.'],
