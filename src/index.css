@@ -952,7 +952,7 @@ h1 { max-width: 1050px; margin: 0 auto 38px; color: #fff; font-size: clamp(48px,
 .video-embed {
   border-radius: 16px;
   overflow: hidden;
-  max-width: 1120px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
