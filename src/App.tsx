@@ -36,6 +36,8 @@ const teamMembers = [
   { name: 'Sumit Gupta', role: 'Sales Automation Specialist', image: 'https://hubcredo.com/wp-content/uploads/2025/09/Sumit_pic.png', bio: "Sumit is a Sales Automation Specialist working on workflow automation, data enrichment, and connecting outbound tools through APIs and webhooks. He works with n8n, Postman, Google Gemini, OpenAI APIs, Next.js, React, GitHub, and REST APIs to turn repetitive processes into scalable systems. Sumit enjoys building practical automation and web tools while developing toward becoming a well-rounded AI and automation engineer." },
 ];
 
+
+
 const serviceCards = [
   {
     title: 'Automated Outbound For B2B',
@@ -376,6 +378,7 @@ function App() {
   const [activeChoose, setActiveChoose] = useState(0);
   const [page, setPage] = useState<'home' | 'privacy' | 'terms'>('home');
   const processRef = useRef<HTMLElement>(null);
+  const [openMenu, setOpenMenu] = useState<'services' | 'products' | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -423,22 +426,32 @@ function App() {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <nav className="nav-wrap" aria-label="Main navigation">
-          <a className="brand" href="#top" aria-label="Hubcredo home"><img src="/images/Hubcredo_logo_(1)_(3) copy.png" alt="Hubcredo" /></a>
-          <div className={`nav-links ${menuOpen ? 'is-open' : ''}`}>
-            <a href="#top" onClick={closeMenu}>Home</a>
-            <a href="#our-team" onClick={closeMenu}>Our Team</a>
-            <details className="services-menu"><summary>Services <ChevronDown size={14} /></summary><div className="services-dropdown">
-              <a href="#services" onClick={closeMenu}>GTM Automation</a>
-              <a href="#services" onClick={closeMenu}>Website & App Development</a>
-              <a href="#services" onClick={closeMenu}>Content Engineering</a>
-              <a href="#services" onClick={closeMenu}>AI-Powered Marketing</a>
-            </div></details>
-            <details className="products-menu"><summary>Products <ChevronDown size={14} /></summary><div className="products-dropdown"><a href="https://pipeline.hubcredo.com/" target="_blank" rel="noreferrer">Outreach Pipeline</a><a href="https://hr.hubcredo.com/" target="_blank" rel="noreferrer">Recruitment Pipeline</a></div></details>
-          </div>
-          <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X size={23} /> : <Menu size={23} />}</button>
-        </nav>
-      </header>
+        <nav className="nav-wrap" aria-label="Main navigation" onMouseLeave={() => setOpenMenu(null)}>
+  <a className="brand" href="#top" aria-label="Hubcredo home"><img src="/images/Hubcredo_logo_(1)_(3) copy.png" alt="Hubcredo" /></a>
+  <div className={`nav-links ${menuOpen ? 'is-open' : ''}`}>
+    <a href="#top" onClick={closeMenu}>Home</a>
+    <a href="#our-team" onClick={closeMenu}>Our Team</a>
+
+    <div className="services-menu" onMouseEnter={() => setOpenMenu('services')}>
+      <span className="menu-summary">Services <ChevronDown size={14} /></span>
+      <div className={`services-dropdown ${openMenu === 'services' ? 'is-open' : ''}`}>
+        <a href="#services" onClick={closeMenu}>GTM Automation</a>
+        <a href="#services" onClick={closeMenu}>Website & App Development</a>
+        <a href="#services" onClick={closeMenu}>Content Engineering</a>
+        <a href="#services" onClick={closeMenu}>AI-Powered Marketing</a>
+      </div>
+    </div>
+
+    <div className="products-menu" onMouseEnter={() => setOpenMenu('products')}>
+      <span className="menu-summary">Products <ChevronDown size={14} /></span>
+      <div className={`products-dropdown ${openMenu === 'products' ? 'is-open' : ''}`}>
+        <a href="https://pipeline.hubcredo.com/" target="_blank" rel="noreferrer">Outreach Pipeline</a>
+        <a href="https://hr.hubcredo.com/" target="_blank" rel="noreferrer">Recruitment Pipeline</a>
+      </div>
+    </div>
+  </div>
+  <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X size={23} /> : <Menu size={23} />}</button>
+</nav>      </header>
 
       <main id="top">
         <section className="hero">
