@@ -1,27 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  ArrowRight,
-  Bot,
-  Check,
-  ChevronDown,
-  CalendarCheck2,
-  Code2,
-  Database,
-  Layers3,
-  Linkedin,
-  Mail,
-  MailOpen,
-  Menu,
-  MessageCircle,
-  Network,
-  Phone,
-  Plus,
-  Sparkles,
-  Send,
-  Workflow,
-  X,
-} from 'lucide-react';
-
+import { ArrowRight, Bot, Check, Globe as Globe2, Link2, Radar, Search, Star, Quote, Newspaper, PenLine, Workflow, ChevronDown, CalendarCheck2, Code as Code2, Database, Layers3, Linkedin, Mail, MailOpen, Menu, MessageCircle, Network, Phone, Plus, Sparkles, Send, X } from 'lucide-react';
+   import OnlineVisibilityAnimation from './OnlineVisibilityAnimation';
 const teamMembers = [
   { name: 'Simon Gittins', role: 'Chief Marketing Officer', image: '/images/Simon_pic.png', bio: 'Simon is a senior marketing and commercial leader with 35 years of experience, including 25 years in senior leadership across marketing, digital, creative, agency, and business development. An AI-certified professional and Frontier AI Trainer, he focuses on commercial growth, client relationships, GTM strategy, and building a strong market position at HubCredo. He brings strategy, creativity, technology, AI, and marketing together to help businesses grow. Outside work, Simon enjoys family time, Newcastle United, fitness, travel, and the outdoors.' },
   { name: 'Shashikant Burnwal', role: 'Co-founder', image: '/images/Shashikant_pic.png', bio: "Shashikant is a co-founder at HubCredo, where he works with founders and leadership teams on growth, GTM, sales, partnerships, and the systems needed to execute them. He enjoys taking ambiguous problems from the early idea stage through research, strategy, experimentation, and implementation.Before HubCredo, Shashikant co-founded Trillbit, a deep-tech startup that he helped build from 0 to 1 and scale to a $3M fundraise. He has also worked across product, strategy, technology, and operations at companies including Ola and Tata Motors, and holds a B.Tech + M.Tech from IIT Kharagpur and an MBA from ISB.Outside of work, Shashikant enjoys exploring new ideas, reading, and spending time with family and friends." },
@@ -74,6 +53,15 @@ const serviceCards = [
     tag: 'AI concierge',
     caption: 'AI replies instantly, day or night',
     features: ['Instant 24/7 responses', 'Context-aware conversations', 'Smart handoff to your sales team'],
+  },
+  {
+    title: 'Online Visibility',
+    text: 'Make your brand easier to discover, trust, and recommend everywhere.',
+    icon: Radar,
+    animation: 'visibility',
+    tag: 'Search presence',
+    caption: 'Your brand, visible across every discovery layer',
+    features: ['Discovery and on-site search', 'Trust and reputation signals', 'Authority Builder','AI search and agentic readiness'],
   },
 ] as const;
 
@@ -163,6 +151,85 @@ function CodeShowcase() {
 
 function ChatbotShowcase() {
   return <div className="showcase-animation chatbot-showcase"><div className="chatbot-head"><span className="bot-avatar"><Bot size={16} /></span><div><strong>HubCredo AI</strong><small>Online now</small></div><i /></div><div className="chat-messages"><div className="chat-message chat-user chat-one">Can you enrich these leads?</div><div className="chat-typing typing-one"><i /><i /><i /></div><div className="chat-message chat-ai chat-two">Absolutely. I’ll get that moving.</div><div className="chat-message chat-user chat-three">Route qualified replies to sales.</div><div className="chat-typing typing-two"><i /><i /><i /></div><div className="chat-message chat-ai chat-four">Done. Your workflow is live.</div></div></div>;
+}
+
+function useLoopTimeline(steps: number, { pauseMs = 1800 }: { pauseMs?: number } = {}) {
+  const [step, setStep] = useState(0);
+  const [inView, setInView] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotion = () => setReducedMotion(media.matches);
+    updateMotion();
+    media.addEventListener('change', updateMotion);
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.18 });
+    if (ref.current) observer.observe(ref.current);
+    return () => { media.removeEventListener('change', updateMotion); observer.disconnect(); };
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) { setStep(steps - 1); return; }
+    if (!inView) { setStep(0); return; }
+    const duration = step === steps - 1 ? pauseMs : 1200;
+    const timer = window.setTimeout(() => setStep((current) => current >= steps - 1 ? 0 : current + 1), duration);
+    return () => window.clearTimeout(timer);
+  }, [inView, pauseMs, reducedMotion, step, steps]);
+
+  return { ref, step, reducedMotion };
+}
+
+function ShowcaseFrame({ badge, title, description, checklist, caption, children, className = '' }: { badge: string; title: string; description: string; checklist: string[]; caption: string; children: React.ReactNode; className?: string }) {
+  return <article className={`visibility-showcase-card ${className}`}><div className="visibility-showcase-copy"><div className="visibility-showcase-icon"><Radar size={24} /></div><span className="visibility-showcase-badge">{badge}</span><h3>{title}</h3><p>{description}</p><ul>{checklist.map((item) => <li key={item}><Check size={14} /><span>{item}</span></li>)}</ul></div><div className="visibility-showcase-preview"><span className="visibility-preview-badge"><i /> LIVE PREVIEW</span><div className="visibility-preview-grid" />{children}<small className="visibility-preview-caption">{caption}</small></div></article>;
+}
+
+function DiscoveryShowcase() {
+  const { ref, step, reducedMotion } = useLoopTimeline(7);
+  const query = 'best crm for small business';
+  const results = ['CRM Software Compared · reviewhub.com', 'Top 10 CRMs in 2026 · techradar-style.com', "CRM Buyer's Guide · softwarepicks.io", 'Small Business CRM Tools · bizdaily.com', 'Best CRM for Small Business · yourbrand.com'];
+  const climbed = step >= 3 || reducedMotion;
+  return <div ref={ref} className="visibility-showcase-wrap" data-step={step} data-static={reducedMotion}><ShowcaseFrame className="discovery-showcase" badge="DISCOVERY ENGINE" title="Help Customers Find You" description="Rank higher, search smarter and personalise every visit." checklist={['SEO that drives qualified traffic', 'On-site search that converts', 'Personalised experiences per visitor']} caption="Visibility growing in real time"><div className="discovery-preview"><div className="discovery-search"><Search size={15} /><span>{query.slice(0, step >= 1 ? query.length : 0)}</span><b /></div><div className="discovery-results">{results.map((result, index) => <div className={`discovery-result ${index === 4 ? 'discovery-brand-result' : ''}`} key={result}><strong>#{climbed ? (index === 4 ? 1 : index + 2) : index + 1}</strong><span>{result}</span>{index === 4 && <em>Your Brand</em>}</div>)}</div><div className="discovery-personalised"><Sparkles size={13} /><b>Personalised for you</b><span>Returning visitor · Marketing</span><div><i>CRM Starter Kit</i><i>Email Automation Guide</i><i>Case Study: SaaS</i></div></div><div className="discovery-sparkline"><svg viewBox="0 0 300 45" role="img" aria-label="Organic traffic increasing"><path d="M0 37 C35 35 42 28 72 31 S112 18 138 24 S178 11 202 17 S242 7 300 4" /></svg><b /></div></div></ShowcaseFrame></div>;
+}
+
+function TrustShowcase() {
+  const { ref, step, reducedMotion } = useLoopTimeline(7);
+  const quotes = ['Fast, reliable and genuinely helpful team. — Priya S.', 'Our enquiries doubled within two months. — Daniel R.', 'Best decision we made for our brand. — Aisha K.'];
+  return <div ref={ref} className="visibility-showcase-wrap" data-step={step} data-static={reducedMotion}><ShowcaseFrame className="trust-showcase" badge="TRUST BUILDER" title="Build Confidence & Credibility" description="Turn customer feedback into a growth engine." checklist={['Reviews & reputation management', 'Faster review velocity', 'Google Seller Ratings and social proof']} caption="Reputation compounding over time"><div className="trust-preview"><div className="trust-rating"><div>{[0, 1, 2, 3, 4].map((star) => <Star key={star} size={16} fill="currentColor" />)}</div><strong>4.9</strong><span>from 1,284 reviews</span></div><div className="trust-google"><b>Google</b><span>Seller Rating</span><strong>4.9 / 5</strong></div><div className="trust-reviews">{quotes.map((quote) => <div className="trust-review" key={quote}><span>PS</span><p>{quote}</p><small><Check size={10} /> Verified</small></div>)}</div><div className="trust-chart"><span>+38 reviews / month</span><svg viewBox="0 0 300 52" role="img" aria-label="Review velocity increasing"><path d="M0 46 C32 44 44 38 67 40 S96 28 122 32 S154 17 180 24 S220 12 246 15 S275 5 300 3" /></svg><b>↑ 24%</b></div><div className="trust-social"><i>PS</i><i>DR</i><i>AK</i><i>LM</i><span>Trusted by 200+ brands</span></div></div></ShowcaseFrame></div>;
+}
+
+const AUTHORITY_PINS = [
+  { label: 'Industry Publication', Icon: Newspaper, x: 20, y: 12.5 },
+  { label: 'Brand Mention', Icon: Quote, x: 59, y: 11 },
+  { label: 'Backlink', Icon: Link2, x: 12, y: 50 },
+  { label: 'News Feature', Icon: Globe2, x: 84.5, y: 47 },
+  { label: 'Guest Article', Icon: PenLine, x: 22, y: 82 },
+  { label: 'Directory Listing', Icon: Search, x: 77, y: 80.5 },
+] as const;
+
+function AuthorityShowcase() {
+  const { ref, step, reducedMotion } = useLoopTimeline(7);
+  const shown = (i: number) => reducedMotion || step >= Math.min(i + 1, 4);
+  return <div ref={ref} className="visibility-showcase-wrap" data-step={step} data-static={reducedMotion}><ShowcaseFrame className="authority-showcase" badge="AUTHORITY BUILDER" title="Strengthen Your Brand Authority" description="Earn links, mentions and publications that move rankings." checklist={['Strategic link building and digital PR', 'Backlink profile growth', 'Authority monitoring and reporting']} caption="Authority network expanding"><div className="authority-preview"><div className="authority-network">
+    <svg className="authority-map-svg" viewBox="0 0 440 320" preserveAspectRatio="none" aria-hidden="true">
+      <defs>{AUTHORITY_PINS.map((p, i) => <linearGradient key={i} id={`auth-grad-${i}`} gradientUnits="userSpaceOnUse" x1="220" y1="160" x2={p.x * 4.4} y2={p.y * 3.2}><stop offset="0" stopColor="#e13bc9" /><stop offset="1" stopColor="#7df0ff" /></linearGradient>)}</defs>
+      {AUTHORITY_PINS.map((p, i) => <path key={p.label} className={`authority-link ${shown(i) ? 'is-in' : ''}`} pathLength={100} stroke={`url(#auth-grad-${i})`} d={`M220 160 L${p.x * 4.4} ${p.y * 3.2}`} />)}
+    </svg>
+    <div className="authority-center"><Radar size={19} /><b>Your Brand</b></div>
+    {AUTHORITY_PINS.map(({ label, Icon, x, y }, i) => <div className={`authority-pin ${shown(i) ? 'is-in' : ''}`} key={label} style={{ left: `${x}%`, top: `${y}%` }}><Icon size={12} /><span>{label}</span></div>)}
+    <div className="authority-score"><span>Authority Score</span><strong>{step >= 5 ? 78 : 32 + Math.min(step, 4) * 11}</strong><i>+46</i></div>
+    <div className="authority-ticker"><span />{step >= 5 ? 'Weekly authority report ready' : step >= 3 ? 'Brand mention found · Tier-1 publication' : 'New backlink detected · DR 72'}</div>
+  </div></div></ShowcaseFrame></div>;
+}
+
+function AISearchShowcase() {
+  const { ref, step, reducedMotion } = useLoopTimeline(8);
+  const chips = ['AEO', 'GEO', 'AIO', 'Schema'];
+  return <div ref={ref} className="visibility-showcase-wrap" data-step={step} data-static={reducedMotion}><ShowcaseFrame className="ai-search-showcase" badge="AI SEARCH ENGINE" title="Be Found by AI, Not Just Google" description="Prepare your brand for AI-powered discovery and recommendations." checklist={['AEO, AIO and GEO optimisation', 'AI visibility and structured data', 'Agentic readiness']} caption="Your brand, recommended by AI"><div className="ai-search-preview"><div className="ai-chat"><div className="ai-chat-head"><span><Sparkles size={13} /></span><b>AI discovery assistant</b><i /></div><div className="ai-user-bubble">Best agency for B2B automation?</div><div className="ai-typing"><i /><i /><i /></div><div className="ai-answer">For B2B automation, <strong>HubCredo stands out.</strong> It combines GTM automation, automated outbound and AI-powered workflows to help teams generate qualified leads.</div><small className="ai-citation"><Link2 size={11} /> [1] hubcredo.com</small></div><div className="ai-side"><div className="ai-chips">{chips.map((chip, index) => <span className={step >= index + 2 ? 'is-lit' : ''} key={chip}>{chip}<Check size={10} /></span>)}</div><div className="ai-meter"><span>AI Visibility <b>{step >= 6 ? '87%' : `${Math.min(step * 14, 87)}%`}</b></span><i /></div><div className="ai-ready"><b>Agentic Readiness</b><span><Check size={10} /> Reads your services</span><span><Check size={10} /> Checks availability</span><span><Check size={10} /> Books a call</span></div></div></div></ShowcaseFrame></div>;
+}
+
+function VisibilityShowcases() {
+  return <div className="visibility-showcases"><DiscoveryShowcase /><TrustShowcase /><AuthorityShowcase /><AISearchShowcase /></div>;
 }
 
 function ChooseWorkflowDiagram() {
@@ -351,6 +418,7 @@ function ServiceWorkflow({ animation }: { animation: string }) {
   if (animation === 'outbound') return <div className="service-workflow outbound-workflow"><div className="workflow-steps">{([['Data Enriched', Database], ['Email Sent', Send], ['LinkedIn Sent', MessageCircle], ['Reply Received', Check]] as const).map(([label, Icon], index) => <div className="service-step" style={{ '--step-delay': `${index}s` } as React.CSSProperties} key={label}><span className="step-icon"><Icon size={19} /></span><span>{label}</span><i><Check size={11} /></i></div>)}</div><strong className="flow-complete">Flow Complete <Check size={13} /></strong></div>;
   if (animation === 'calling') return <CallWorkflow />;
   if (animation === 'coding') return <div className="service-workflow coding-workflow"><div className="code-placeholder"><div className="code-top"><span /><span /><span /></div>{['const flow = await connect();', 'await enrich(leads);', 'return workflow.run();'].map((line, index) => <p style={{ '--code-delay': `${index * .75}s` } as React.CSSProperties} key={line}><small>0{index + 1}</small><span>{line}</span></p>)}<b className="code-caret" /></div><strong className="service-complete"><Check size={15} /> Build complete</strong></div>;
+  if (animation === 'visibility') return <OnlineVisibilityAnimation />;
   return <ChatWorkflow />;
 }
 
@@ -438,7 +506,7 @@ function App() {
         <a href="#services" onClick={closeMenu}>GTM Automation</a>
         <a href="#services" onClick={closeMenu}>Website & App Development</a>
         <a href="#services" onClick={closeMenu}>Content Engineering</a>
-        <a href="#services" onClick={closeMenu}>AI-Powered Marketing</a>
+        <a href="#services" onClick={closeMenu}>Online Visibility</a>
       </div>
     </div>
 
@@ -505,7 +573,7 @@ function App() {
 
         <section className="feedback-section"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> Client’s Feedback</p><h2>Trusted by teams<br /><strong>that move forward.</strong></h2></div><div className="testimonial-slider"><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial - 1 + testimonials.length) % testimonials.length)} aria-label="Previous testimonial">‹</button><div className="testimonial-card"><p className="testimonial-company">{testimonials[activeTestimonial][0]} <i>/</i> {testimonials[activeTestimonial][1]}</p><h3>{testimonials[activeTestimonial][2]}</h3><div className="stars">★★★★★</div><p>{testimonials[activeTestimonial][3]}</p></div><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial + 1) % testimonials.length)} aria-label="Next testimonial">›</button></div><div className="slider-dots">{testimonials.map((testimonial, index) => <button className={activeTestimonial === index ? 'active' : ''} key={testimonial[0]} onClick={() => setActiveTestimonial(index)} aria-label={`Show ${testimonial[0]} testimonial`} />)}</div></div></section>
 
-        <section className="services-section" id="services"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> What we do</p><h2>Solutions built<br /><strong>for momentum.</strong></h2></div><ServicesCarousel /></div></section>
+        <section className="services-section" id="services"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> What we do</p><h2>Solutions built<br /><strong>for momentum.</strong></h2></div><ServicesCarousel /><div className="visibility-intro"><p className="eyebrow"><span /> Online Visibility</p><h3>Be found, trusted, and<br /><strong>recommended everywhere.</strong></h3><p>Online visibility is more than ranking on a page. It is the connected system of signals that helps the right people and intelligent agents discover your brand, believe in it, and act.</p></div><VisibilityShowcases /></div></section>
 
         <div className="marquee"><div><span>✦</span> AI-Powered Automation <span>✦</span> Result-Oriented Workflows <span>✦</span> Startup friendly <span>✦</span> Smart Data Enrichment <span>✦</span> Faster response time <span>✦</span> Automated Lead Generation <span>✦</span> Cold Email Made Easy <span>✦</span> Optimized Marketing Campaigns</div></div>
 
