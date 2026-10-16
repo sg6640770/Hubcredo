@@ -1,0 +1,58 @@
+/* ==== Online Visibility animation: addendum (append to the end of index.css) ==== */
+
+/* discovery: "+312% organic clicks" chip, bottom-right of the stage */
+.vz .vz-clicks { position: absolute; right: 0; bottom: 0; }
+
+/* trust: spring-in chips and the velocity line */
+.vz .vz-trend { opacity: 0; transform: scale(.6); transition: transform .5s cubic-bezier(.34,1.56,.64,1), opacity .25s ease; }
+.vz .vz-trend.is-in { opacity: 1; transform: none; }
+.vz .vz-vel-top { min-height: 18px; }
+.vz .vz-line { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset 1.3s var(--vz-ease); }
+.vz .vz-line.is-in { stroke-dashoffset: 0; }
+.vz .vz-line-dot { opacity: 0; filter: drop-shadow(0 0 5px #e13bc9); transition: opacity .3s ease; }
+.vz .vz-line-dot.is-in { opacity: 1; }
+
+/* authority: connecting lines, fading centre node, opaque node cards, icon sizing */
+.vz .vz-link { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset .45s var(--vz-ease); }
+.vz .vz-link.is-in { stroke-dashoffset: 0; }
+.vz .vz-center { opacity: 0; transition: opacity .5s ease, box-shadow .15s ease; }
+.vz .vz-center.is-in { opacity: 1; }
+.vz .vz-center span { font: 800 8.5px 'DM Sans', sans-serif; }
+.vz .vz-net .vz-node { background: rgba(24,16,51,.94); }
+.vz .vz-net .vz-node svg { position: static; width: 12px; height: 12px; }
+.vz .vz-auth { z-index: 4; }
+
+/* AI search: keep icons in the chat header and chips at their intended size */
+.vz .vz-chat-head b { font-weight: 700; }
+.vz .vz-agent b { margin-bottom: 0; }
+
+/* tracker/score ring must never wrap or push the layout */
+.vz .vz-top > * { flex: 0 0 auto; }
+
+/* reduced motion: static finale, no loop */
+@media (prefers-reduced-motion: reduce) {
+  .vz .vz-line, .vz .vz-link { transition: none; }
+}
+
+/* ==========================================================================
+   OVERLAP FIXES (loaded by OnlineVisibilityAnimation.tsx, applies globally)
+   ========================================================================== */
+
+/* ---- Discovery showcase: results no longer collide with "Personalised for you" ---- */
+.visibility-showcase-card .discovery-results { top: 48px; gap: 4px; }
+.visibility-showcase-card .discovery-result { min-height: 28px; padding: 5px 9px; }
+.visibility-showcase-card .discovery-personalised { bottom: 38px; padding: 7px 10px; }
+.visibility-showcase-card .discovery-personalised div { margin-top: 3px; }
+/* keep the brand row at #1 on the last step too (it used to drop back down at step 6) */
+[data-step="6"] .discovery-brand-result { order: -1; border-color: #e13bc9; color: #fff; box-shadow: 0 0 20px rgba(225,59,201,.22); }
+
+/* ---- Authority showcase: geometry-based map (SVG lines + centred pins) ---- */
+.authority-map-svg { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.authority-link { fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset .7s cubic-bezier(.22,1,.36,1); }
+.authority-link.is-in { stroke-dashoffset: 0; }
+.authority-pin { position: absolute; z-index: 3; display: flex; align-items: center; gap: 5px; padding: 6px 8px; border: 1px solid rgba(166,201,255,.22); border-radius: 7px; color: #d8cee9; background: #1b1337; font-size: 9px; white-space: nowrap; opacity: 0; transform: translate(-50%, -50%) scale(.5); transition: opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1); }
+.authority-pin.is-in { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.authority-pin svg { flex: 0 0 auto; width: 12px; height: 12px; color: #7df0ff; }
+.authority-network .authority-center { z-index: 4; }
+.authority-network .authority-score { z-index: 5; }
+.authority-network .authority-ticker { z-index: 4; background: transparent; }
