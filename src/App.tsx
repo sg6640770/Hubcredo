@@ -505,7 +505,17 @@ function App() {
         <a href="#services" onClick={closeMenu}>GTM Automation</a>
         <a href="#services" onClick={closeMenu}>Website & App Development</a>
         <a href="#services" onClick={closeMenu}>Content Engineering</a>
-        <a href="#services" onClick={closeMenu}>Online Visibility</a>
+        <a
+  href="#online-visibility"
+  onClick={(e) => {
+    e.preventDefault();
+    closeMenu();
+    setOpenMenu(null);
+    document.getElementById('online-visibility')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }}
+>
+  Online Visibility
+</a>
       </div>
     </div>
 
@@ -572,7 +582,7 @@ function App() {
 
         <section className="feedback-section"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> Client’s Feedback</p><h2>Trusted by teams<br /><strong>that move forward.</strong></h2></div><div className="testimonial-slider"><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial - 1 + testimonials.length) % testimonials.length)} aria-label="Previous testimonial">‹</button><div className="testimonial-card"><p className="testimonial-company">{testimonials[activeTestimonial][0]} <i>/</i> {testimonials[activeTestimonial][1]}</p><h3>{testimonials[activeTestimonial][2]}</h3><div className="stars">★★★★★</div><p>{testimonials[activeTestimonial][3]}</p></div><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial + 1) % testimonials.length)} aria-label="Next testimonial">›</button></div><div className="slider-dots">{testimonials.map((testimonial, index) => <button className={activeTestimonial === index ? 'active' : ''} key={testimonial[0]} onClick={() => setActiveTestimonial(index)} aria-label={`Show ${testimonial[0]} testimonial`} />)}</div></div></section>
 
-        <section className="services-section" id="services"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> What we do</p><h2>Solutions built<br /><strong>for momentum.</strong></h2></div><ServicesCarousel /><div className="visibility-intro"><p className="eyebrow"><span /> Online Visibility</p><h3>Be found, trusted, and<br /><strong>recommended everywhere.</strong></h3><p>Online visibility is more than ranking on a page. It is the connected system of signals that helps the right people and intelligent agents discover your brand, believe in it, and act.</p></div><VisibilityShowcases /></div></section>
+        <section className="services-section" id="services"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> What we do</p><h2>Solutions built<br /><strong>for momentum.</strong></h2></div><ServicesCarousel /><div className="visibility-intro" id="online-visibility"><p className="eyebrow"><span /> Online Visibility</p><h3>Be found, trusted, and<br /><strong>recommended everywhere.</strong></h3><p>Online visibility is more than ranking on a page. It is the connected system of signals that helps the right people and intelligent agents discover your brand, believe in it, and act.</p></div><VisibilityShowcases /></div></section>
 
         <div className="marquee"><div><span>✦</span> AI-Powered Automation <span>✦</span> Result-Oriented Workflows <span>✦</span> Startup friendly <span>✦</span> Smart Data Enrichment <span>✦</span> Faster response time <span>✦</span> Automated Lead Generation <span>✦</span> Cold Email Made Easy <span>✦</span> Optimized Marketing Campaigns</div></div>
 
