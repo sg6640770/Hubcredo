@@ -115,6 +115,14 @@ const animationNodes = [
   { label: 'Automations', icon: Workflow, className: 'anim-automations' },
 ];
 
+/* Dropdown "Services" items -> which carousel card (index in serviceCards) they open */
+const serviceLinks = [
+  { label: 'GTM Automation', index: 0 },            // Automated Outbound for B2B
+  { label: 'Website & App Development', index: 2 }, // Development & Coding
+  { label: 'Content Engineering', index: 3 },       // placeholder: Chatbot (no Content Engineering card yet)
+  { label: 'Online Visibility', index: 4 },         // Online Visibility
+] as const;
+
 function EmailShowcase() {
   return <div className="showcase-animation email-showcase"><div className="email-window"><div className="mini-window-bar"><span /><span /><span /></div><div className="email-field"><small>To</small><b>growth@acme.io</b></div><div className="email-field"><small>Subject</small><b className="type-subject">A smarter way to grow</b></div><div className="email-body"><span className="type-body">Hi Alex, let’s build a better pipeline.</span><i /></div><div className="email-send"><Send size={13} /></div></div><div className="email-plane"><Send size={24} /></div><strong className="sent-badge">Sent <Check size={13} /></strong></div>;
 }
@@ -421,21 +429,24 @@ function ServiceWorkflow({ animation }: { animation: string }) {
   return <ChatWorkflow />;
 }
 
-function ServicesCarousel() {
-  const [activeService, setActiveService] = useState(0);
+function ServicesCarousel({ activeService, setActiveService }: { activeService: number; setActiveService: React.Dispatch<React.SetStateAction<number>> }) {
   const [dragStart, setDragStart] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
   const [paused, setPaused] = useState(false);
   const goToService = (nextIndex: number) => setActiveService((nextIndex + serviceCards.length) % serviceCards.length);
+
   useEffect(() => {
     if (paused) return;
-    const timer = window.setInterval(() => setActiveService((current) => (current + 1) % serviceCards.length), 4500);
-    return () => window.clearInterval(timer);
-  }, [paused]);
+    // setTimeout (not setInterval) so autoplay restarts whenever the card changes,
+    // including when it is changed from the nav menu
+    const timer = window.setTimeout(() => setActiveService((current) => (current + 1) % serviceCards.length), 4500);
+    return () => window.clearTimeout(timer);
+  }, [paused, activeService, setActiveService]);
+
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => { setDragStart(event.clientX); setPaused(true); event.currentTarget.setPointerCapture(event.pointerId); };
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => { if (dragStart !== null) setDragOffset(event.clientX - dragStart); };
   const handlePointerUp = () => { if (Math.abs(dragOffset) > 55) goToService(activeService + (dragOffset < 0 ? 1 : -1)); setDragStart(null); setDragOffset(0); setPaused(false); };
-  return <div className="services-carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => { if (dragStart === null) setPaused(false); }}><div className="carousel-viewport" onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerCancel={handlePointerUp}><div className="carousel-track" style={{ transform: `translateX(calc(-${activeService * 100}% + ${dragOffset}px))` }}>{serviceCards.map(({ title, text, icon: Icon, animation, tag, caption, features }, index) => <article className="service-card carousel-card" key={title} aria-hidden={activeService !== index}><div className="service-card-inner"><div className="service-card-content"><div className="service-icon-badge"><Icon size={26} strokeWidth={1.6} /></div><span className="service-tag">{tag}</span><h3>{title}</h3><p>{text}</p><ul className="service-feature-list">{features.map((feature) => <li key={feature}><Check size={14} /><span>{feature}</span></li>)}</ul></div><div className="service-card-visual"><div className="service-card-visual-grid" /><span className="service-card-visual-badge"><span /> Live preview</span><ServiceWorkflow animation={animation} /><span className="service-card-visual-caption">{caption}</span></div></div></article>)}</div></div><div className="carousel-controls"><button onClick={() => goToService(activeService - 1)} aria-label="Previous service">‹</button><div className="carousel-dots">{serviceCards.map((service, index) => <button className={activeService === index ? 'active' : ''} onClick={() => goToService(index)} aria-label={`Show ${service.title}`} key={service.title} />)}</div><button onClick={() => goToService(activeService + 1)} aria-label="Next service">›</button></div></div>;
+  return <div id="services-carousel" className="services-carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => { if (dragStart === null) setPaused(false); }}><div className="carousel-viewport" onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerCancel={handlePointerUp}><div className="carousel-track" style={{ transform: `translateX(calc(-${activeService * 100}% + ${dragOffset}px))` }}>{serviceCards.map(({ title, text, icon: Icon, animation, tag, caption, features }, index) => <article className="service-card carousel-card" key={title} aria-hidden={activeService !== index}><div className="service-card-inner"><div className="service-card-content"><div className="service-icon-badge"><Icon size={26} strokeWidth={1.6} /></div><span className="service-tag">{tag}</span><h3>{title}</h3><p>{text}</p><ul className="service-feature-list">{features.map((feature) => <li key={feature}><Check size={14} /><span>{feature}</span></li>)}</ul></div><div className="service-card-visual"><div className="service-card-visual-grid" /><span className="service-card-visual-badge"><span /> Live preview</span><ServiceWorkflow animation={animation} /><span className="service-card-visual-caption">{caption}</span></div></div></article>)}</div></div><div className="carousel-controls"><button onClick={() => goToService(activeService - 1)} aria-label="Previous service">‹</button><div className="carousel-dots">{serviceCards.map((service, index) => <button className={activeService === index ? 'active' : ''} onClick={() => goToService(index)} aria-label={`Show ${service.title}`} key={service.title} />)}</div><button onClick={() => goToService(activeService + 1)} aria-label="Next service">›</button></div></div>;
 }
 
 function App() {
@@ -443,6 +454,7 @@ function App() {
   const [activeFaq, setActiveFaq] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeChoose, setActiveChoose] = useState(0);
+  const [activeService, setActiveService] = useState(0);
   const [page, setPage] = useState<'home' | 'privacy' | 'terms'>('home');
   const processRef = useRef<HTMLElement>(null);
   const [openMenu, setOpenMenu] = useState<'services' | 'products' | null>(null);
@@ -484,6 +496,18 @@ function App() {
 
   const closeMenu = () => setMenuOpen(false);
   const goHome = () => { window.location.hash = '#top'; setPage('home'); };
+
+  // Opens a specific card in the services carousel and scrolls to it
+  const openService = (index: number) => {
+    closeMenu();
+    setOpenMenu(null);
+    setPage('home');
+    setActiveService(index);
+    setTimeout(() => {
+      document.getElementById('services-carousel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
+
   const selectedChoose = chooseTabs[activeChoose];
   const ChooseIcon = selectedChoose.icon;
 
@@ -502,20 +526,15 @@ function App() {
     <div className="services-menu" onMouseEnter={() => setOpenMenu('services')}>
       <span className="menu-summary">Services <ChevronDown size={14} /></span>
       <div className={`services-dropdown ${openMenu === 'services' ? 'is-open' : ''}`}>
-        <a href="#services" onClick={closeMenu}>GTM Automation</a>
-        <a href="#services" onClick={closeMenu}>Website & App Development</a>
-        <a href="#services" onClick={closeMenu}>Content Engineering</a>
-        <a
-  href="#online-visibility"
-  onClick={(e) => {
-    e.preventDefault();
-    closeMenu();
-    setOpenMenu(null);
-    document.getElementById('online-visibility')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }}
->
-  Online Visibility
-</a>
+        {serviceLinks.map(({ label, index }) => (
+          <a
+            key={label}
+            href="#services"
+            onClick={(e) => { e.preventDefault(); openService(index); }}
+          >
+            {label}
+          </a>
+        ))}
       </div>
     </div>
 
@@ -582,7 +601,7 @@ function App() {
 
         <section className="feedback-section"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> Client’s Feedback</p><h2>Trusted by teams<br /><strong>that move forward.</strong></h2></div><div className="testimonial-slider"><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial - 1 + testimonials.length) % testimonials.length)} aria-label="Previous testimonial">‹</button><div className="testimonial-card"><p className="testimonial-company">{testimonials[activeTestimonial][0]} <i>/</i> {testimonials[activeTestimonial][1]}</p><h3>{testimonials[activeTestimonial][2]}</h3><div className="stars">★★★★★</div><p>{testimonials[activeTestimonial][3]}</p></div><button className="slider-button" onClick={() => setActiveTestimonial((activeTestimonial + 1) % testimonials.length)} aria-label="Next testimonial">›</button></div><div className="slider-dots">{testimonials.map((testimonial, index) => <button className={activeTestimonial === index ? 'active' : ''} key={testimonial[0]} onClick={() => setActiveTestimonial(index)} aria-label={`Show ${testimonial[0]} testimonial`} />)}</div></div></section>
 
-        <section className="services-section" id="services"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> What we do</p><h2>Solutions built<br /><strong>for momentum.</strong></h2></div><ServicesCarousel /><div className="visibility-intro" id="online-visibility"><p className="eyebrow"><span /> Online Visibility</p><h3>Be found, trusted, and<br /><strong>recommended everywhere.</strong></h3><p>Online visibility is more than ranking on a page. It is the connected system of signals that helps the right people and intelligent agents discover your brand, believe in it, and act.</p></div><VisibilityShowcases /></div></section>
+        <section className="services-section" id="services"><div className="section-shell"><div className="section-title centered"><p className="eyebrow"><span /> What we do</p><h2>Solutions built<br /><strong>for momentum.</strong></h2></div><ServicesCarousel activeService={activeService} setActiveService={setActiveService} /><div className="visibility-intro"><p className="eyebrow"><span /> Online Visibility</p><h3>Be found, trusted, and<br /><strong>recommended everywhere.</strong></h3><p>Online visibility is more than ranking on a page. It is the connected system of signals that helps the right people and intelligent agents discover your brand, believe in it, and act.</p></div><VisibilityShowcases /></div></section>
 
         <div className="marquee"><div><span>✦</span> AI-Powered Automation <span>✦</span> Result-Oriented Workflows <span>✦</span> Startup friendly <span>✦</span> Smart Data Enrichment <span>✦</span> Faster response time <span>✦</span> Automated Lead Generation <span>✦</span> Cold Email Made Easy <span>✦</span> Optimized Marketing Campaigns</div></div>
 
